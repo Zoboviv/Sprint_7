@@ -25,7 +25,4 @@ public class Courier {
         return password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 }

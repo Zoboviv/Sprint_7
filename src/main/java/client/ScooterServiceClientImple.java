@@ -43,6 +43,7 @@ public class ScooterServiceClientImple implements ScooterServiceClient {
         return given()
                 .log()
                 .all()
+                .header("Content-Type", "application/json")
                 .baseUri(BASE_URI)
                 .delete(CREATE_USER_ENDPOINT + "/"+ id)
                 .then()
