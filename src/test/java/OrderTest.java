@@ -1,7 +1,6 @@
 import client.Order;
 import client.ScooterServiceClient;
 import client.ScooterServiceClientImple;
-import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class OrderTest {
@@ -23,7 +22,7 @@ public class OrderTest {
     private final String comment;
     private final String[] color;
     private ScooterServiceClient client;
-    private String track;
+
 
     public OrderTest(String firstName, String lastName, String address, String metroStation,
                      String phone, int rentTime, String deliveryDate, String comment, String[] color) {
@@ -57,14 +56,7 @@ public class OrderTest {
         client = new ScooterServiceClientImple();
         Order order = Order.create(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
         ValidatableResponse response = client.createOrder(order);
-        response.assertThat().statusCode(201).and().body("track", notNullValue());
-        getIdOrder(order);
-    }
-
-    @Step("Получаем id заказа")
-    public void getIdOrder(Order order){
-        ValidatableResponse createOrderResponse = client.createOrder(order);
-        track = createOrderResponse.extract().jsonPath().getString("track");
+        response.assertThat().statusCode(201).and().body("track", equalTo(response.extract().jsonPath().getInt("track")));
     }
 
 }

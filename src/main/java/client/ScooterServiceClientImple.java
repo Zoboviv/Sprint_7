@@ -2,8 +2,6 @@ package client;
 
 import io.restassured.response.ValidatableResponse;
 
-import java.net.URI;
-
 import static io.restassured.RestAssured.given;
 
 public class ScooterServiceClientImple implements ScooterServiceClient {
